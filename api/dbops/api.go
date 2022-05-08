@@ -2,6 +2,7 @@ package dbops
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"time"
@@ -10,6 +11,8 @@ import (
 )
 
 func AddUserCredential(loginName string, pwd string) error {
+	fmt.Println("loginName", loginName)
+	fmt.Println("pwd", pwd)
 	stmtIns, err := dbConn.Prepare("INSERT INTO users (login_name, pwd) VALUES (?, ?)")
 	if err != nil {
 		return err
