@@ -5,6 +5,9 @@
 *.so
 *.dylib
 .idea
+api/tmp
+stream_server/tmp
+stream_server/video
 # Test binary, built with `go test -c`
 *.test
 
