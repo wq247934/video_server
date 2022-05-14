@@ -5,7 +5,6 @@ import (
 	"github.com/pkg/errors"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"video_server/stream_server/dto"
 )
 
 var (
@@ -16,15 +15,6 @@ func init() {
 	var err error
 	MySqlDB, err = getDatabaseConn()
 	if err != nil {
-		panic(err)
-	}
-	// 迁移 schema
-
-	if err := MySqlDB.AutoMigrate(
-		&dto.Video{},
-		&dto.Hash{},
-		&dto.Comment{},
-	); err != nil {
 		panic(err)
 	}
 }

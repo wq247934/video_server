@@ -1,14 +1,18 @@
 package main
 
 import (
+	"os"
+	"os/signal"
+	"syscall"
 	"video_server/stream_server/routers"
 )
 
 func main() {
-	r := routers.SetRouters()
-	err := r.Run(":9000")
-	if err != nil {
-		panic(err)
-	}
+	routers.HttpServerRun()
 
+	quit := make(chan os.Signal)
+	signal.Notify(quit, syscall.SIGKILL, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+
+	routers.HttpServerStop()
 }

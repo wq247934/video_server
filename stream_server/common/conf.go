@@ -1,12 +1,18 @@
 package common
 
-import "os"
+import (
+	"os"
+	"strconv"
+)
 
 var (
 	MySqlUser     string
 	MysqlPassword string
 	MysqlUrl      string
 	DatabaseName  string
+	HttpAddr      string
+	ReadTimeout   int
+	WriteTimeout  int
 )
 
 func init() {
@@ -14,6 +20,9 @@ func init() {
 	MysqlPassword = GetEnv("MYSQL_PASSWD", "123456")
 	MysqlUrl = GetEnv("MYSQL_URL", "127.0.0.1:3306")
 	DatabaseName = GetEnv("DATABASE_NAME", "video")
+	HttpAddr = GetEnv("HTTP_ADDR", "127.0.0.1:9001")
+	ReadTimeout, _ = strconv.Atoi(GetEnv("READ_TIMEOUT", "30"))
+	WriteTimeout, _ = strconv.Atoi(GetEnv("WriteTimeout", "30"))
 }
 
 func GetEnv(key, def string) string {
