@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 	"video_server/stream_server/common"
+	"video_server/stream_server/middleware"
 )
 
 var (
@@ -13,7 +14,7 @@ var (
 )
 
 func HttpServerRun() {
-	r := InitRouter()
+	r := InitRouter(middleware.Cors())
 	HttpSrvHandler = &http.Server{
 		Addr:         common.HttpAddr,
 		Handler:      r,
