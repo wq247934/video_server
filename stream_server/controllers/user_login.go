@@ -26,14 +26,14 @@ func UserLoginControllerRegister(group *gin.RouterGroup) {
 // @Summary 用户登录
 // @Description 用户登录
 // @Tags 用户接口
-// @ID /user_admin/login
+// @ID /user_login/login
 // @Accept  json
 // @Produce  json
-// @Param polygon body dto.AdminLoginInput true "body"
-// @Success 200 {object} middleware.Response{data=dto.AdminLoginOutput} "success"
-// @Router /admin_login/login [post]
+// @Param polygon body dto.UserLoginInput true "body"
+// @Success 200 {object} middleware.Response{data=dto.UserLoginOutput} "success"
+// @Router /user_login/login [post]
 func (adminLogin UserLoginController) UserLogin(c *gin.Context) {
-	params := &dto.AdminLoginInput{}
+	params := &dto.UserLoginInput{}
 	fmt.Println(params)
 	if err := params.BindingValidParams(c); err != nil {
 		middleware.ResponseError(c, 2000, err)
@@ -70,19 +70,19 @@ func (adminLogin UserLoginController) UserLogin(c *gin.Context) {
 		middleware.ResponseError(c, 2004, err)
 		return
 	}
-	out := &dto.AdminLoginOutput{Token: u.Username}
+	out := &dto.UserLoginOutput{Token: u.Username}
 	middleware.ResponseSuccess(c, out)
 }
 
 // UserLogout godoc
-// @Summary 管理员退出
-// @Description 管理员退出
-// @Tags 管理员接口
-// @ID /admin_login/logout
+// @Summary 用户退出
+// @Description 用户退出登录
+// @Tags 用户接口
+// @ID /user_login/logout
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} middleware.Response{data=string} "success"
-// @Router /admin_login/logout [get]
+// @Router /user_login/logout [get]
 func (adminLogin UserLoginController) UserLogout(c *gin.Context) {
 	sess := sessions.Default(c)
 	sess.Delete(common.AdminSessionInfoKey)

@@ -2,6 +2,7 @@ package routers
 
 import (
 	"context"
+	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"time"
@@ -14,6 +15,7 @@ var (
 )
 
 func HttpServerRun() {
+	gin.SetMode("debug")
 	r := InitRouter(middleware.Cors())
 	HttpSrvHandler = &http.Server{
 		Addr:         common.HttpAddr,
