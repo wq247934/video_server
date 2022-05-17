@@ -51,6 +51,9 @@ func TranslationMiddleware() gin.HandlerFunc {
 			val.RegisterValidation("require_username", func(fl validator.FieldLevel) bool {
 				return true
 			})
+			val.RegisterValidation("require_title", func(fl validator.FieldLevel) bool {
+				return true
+			})
 			val.RegisterValidation("valid_service_name", func(fl validator.FieldLevel) bool {
 				matched, _ := regexp.Match(`^[a-zA-Z0-9_]{6,128}$`, []byte(fl.Field().String()))
 				return matched
@@ -117,6 +120,12 @@ func TranslationMiddleware() gin.HandlerFunc {
 				return ut.Add("require_username", "{0} 填写不正确哦", true)
 			}, func(ut ut.Translator, fe validator.FieldError) string {
 				t, _ := ut.T("require_username", fe.Field())
+				return t
+			})
+			val.RegisterTranslation("require_title", trans, func(ut ut.Translator) error {
+				return ut.Add("require_title", "{0} 填写不正确哦", true)
+			}, func(ut ut.Translator, fe validator.FieldError) string {
+				t, _ := ut.T("require_title", fe.Field())
 				return t
 			})
 			val.RegisterTranslation("valid_service_name", trans, func(ut ut.Translator) error {

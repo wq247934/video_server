@@ -98,6 +98,42 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/video/upload": {
+            "post": {
+                "description": "用户上传视频",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "视频接口"
+                ],
+                "summary": "上传视频",
+                "operationId": "/video/upload",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -124,7 +160,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "token": {
-                    "description": "管理员用户名",
+                    "description": "token",
+                    "type": "string",
+                    "example": "admin"
+                },
+                "username": {
+                    "description": "用户名",
                     "type": "string",
                     "example": "admin"
                 }

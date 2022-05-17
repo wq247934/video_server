@@ -22,5 +22,6 @@ func (params *UserLoginInput) BindingValidParams(c *gin.Context) error {
 }
 
 type UserLoginOutput struct {
-	Token string `json:"token" form:"token" comment:"token" example:"admin" validate:""` //管理员用户名
+	Token    string `json:"token" form:"token" comment:"token" example:"admin" validate:""`          //token
+	UserName string `json:"username" form:"username" comment:"username" example:"admin" validate:""` //用户名
 }

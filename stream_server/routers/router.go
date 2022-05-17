@@ -88,5 +88,16 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		controllers.UserLoginControllerRegister(UserLoginRouter)
 	}
 
+	videoRouter := router.Group("/video")
+	videoRouter.Use(
+		sessions.Sessions("mysession", store),
+		middleware.SessionAuthMiddleware(),
+		middleware.RecoveryMiddleware(),
+		middleware.RequestLog(),
+		middleware.TranslationMiddleware())
+	{
+		controllers.VideoControllerRegister(videoRouter)
+	}
+
 	return router
 }

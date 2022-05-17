@@ -70,7 +70,7 @@ func (adminLogin UserLoginController) UserLogin(c *gin.Context) {
 		middleware.ResponseError(c, 2004, err)
 		return
 	}
-	out := &dto.UserLoginOutput{Token: u.Username}
+	out := &dto.UserLoginOutput{Token: u.Username, UserName: u.Username}
 	middleware.ResponseSuccess(c, out)
 }
 

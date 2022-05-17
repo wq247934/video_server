@@ -23,3 +23,12 @@ func MD5(s string) string {
 	io.WriteString(h, s)
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
+
+func GetFileHash(fileByte []byte) []byte {
+	hash := sha256.New()
+	if _, err := hash.Write(fileByte); err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	return hash.Sum(nil)
+}
