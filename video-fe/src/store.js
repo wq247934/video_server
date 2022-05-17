@@ -8,6 +8,12 @@ export default new Vuex.Store({
     state:{
         promptMessage: false, // home中定义全局snackbar
         snackbarInfo: null, // home中全局snackbar提示信息
+        //存储token
+        Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
+        user:{
+            nickName:"",
+            userID:""
+        }
     },
     getters:{},
     //使用mutations变更store中的数据以及传递参数，可以集中监听所有数据的变化
@@ -19,6 +25,15 @@ export default new Vuex.Store({
             state.promptMessage = true;
             state.snackbarInfo = message;
         },
+        // 修改token，并将token存入localStorage
+        changeLogin(state, user) {
+            state.Authorization = user.Authorization;
+            state.user.userNme = user.userNme;
+            // state.user.userID = user.userID;
+            localStorage.setItem('Authorization', user.Authorization);
+            localStorage.setItem('nickName',state.user.userNme)
+            // localStorage.setItem('userID',state.user.userID)
+        }
     },
     actions:{}
 })

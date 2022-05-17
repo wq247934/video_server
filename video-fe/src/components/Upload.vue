@@ -1,34 +1,55 @@
 <template>
-<v-container>
-  <v-app>
-<v-form>
-      <v-file-input accept="video/*" label="File input" show-size @change="onFileChange"></v-file-input>
-      <v-btn @click="submit"></v-btn>
-</v-form>
-  </v-app>
-</v-container>
+  <v-container>
+    <v-row align="center">
+      <v-form ref="form">
+        <v-text-field
+            v-model="video.title"
+            :counter="30"
+            label="视频标题"
+            required
+        ></v-text-field>
+        <v-text-field
+            v-model="video.introduction"
+            label="视频简介"
+        ></v-text-field>
+        <v-file-input accept="video/*" label="File input" show-size @change="onFileChange"></v-file-input>
+        <v-switch v-model="video.public" class="ma-4" label="是否公开"></v-switch>
+        <v-btn @click="submit">提交</v-btn>
+      </v-form>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import axios from "axios";
+
 export default {
   name: "Upload",
-  data:()=>({
-    file:""
-}),
-  methods:{
-    onFileChange(file){
-      this.file = file;
+  data: () => ({
+    video:{
+      file:"",
+      title:"",
+      introduction:"",
+      public:""
+    }
+  }),
+  methods: {
+    onFileChange(file) {
+      this.video.file = file;
     },
-    submit(){
+    submit() {
       let formData = new FormData();
-      formData.append("file",this.file)
-      axios.post("http://localhost:9000/video/2",formData).then((resp)=>{
+      formData.set("file",this.video.file)
+      formData.set("title",this.video.title)
+      formData.set("introduction",this.video.introduction)
+      formData.set("public",this.video.public)
+      console.log(formData)
+      axios.post("/api/video/upload", formData).then((resp) => {
         console.log(resp)
-      }).catch((err)=>{
+      }).catch((err) => {
         console.log(err)
       })
-    }
+    },
   }
 }
 </script>

@@ -144,7 +144,7 @@ export default {
         if (this.LoginInfo.password === "") {
           this.$store.commit("showsnackbar", "密码不能为空！");
         } else {
-          axios.post("http://localhost:9001/user/login", {
+          axios.post("/api/user_login/login", {
             "username": this.LoginInfo.phone,
             "password": this.LoginInfo.password
           }).then((resp) => {
@@ -152,6 +152,13 @@ export default {
               this.$store.commit("showsnackbar", "用户名或密码错误！");
               console.log(resp.data)
             } else {
+              this.userToken = "Bearer " + resp.data.data.token;
+              // 将用户token保存到vuex中
+              this.$store.commit("changeLogin", {
+                Authorization: this.userToken,
+                userNme: resp.data.data.username,
+                // userID: resp.data.userID,
+              });
               this.$router.replace("/play")
             }
           }).catch((err) => {

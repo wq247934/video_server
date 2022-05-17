@@ -7,7 +7,11 @@ import VideoPlayer from 'vue-video-player'
 import axios from "axios";
 import VueAxios from 'vue-axios'
 
+axios.defaults.withCredentials = true  //全局设置axios允许携带cookie进行访问
+Vue.prototype.$axios = axios    //设置axios全局标量，之后就可以以this.$axios的形式访问了
+
 Vue.use(VueAxios, axios)
+
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')
 Vue.use(VideoPlayer)
@@ -15,9 +19,9 @@ Vue.use(VideoPlayer)
 Vue.config.productionTip = false
 console.log(router)
 new Vue({
-  vuetify,
-  store,//将store挂载到new出来的Vue实例中，这样在vue中的每个组件都可以访问到全局共享数据了
-  router,
-  render: h => h(App)
+    vuetify,
+    store,//将store挂载到new出来的Vue实例中，这样在vue中的每个组件都可以访问到全局共享数据了
+    router,
+    render: h => h(App)
 }).$mount('#app')
 
