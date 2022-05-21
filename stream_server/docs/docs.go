@@ -113,6 +113,17 @@ const docTemplate = `{
                 ],
                 "summary": "上传视频",
                 "operationId": "/video/upload",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "polygon",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.VideoUploadInput"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -126,6 +137,45 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/video/videos": {
+            "get": {
+                "description": "视频列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "视频接口"
+                ],
+                "summary": "视频列表",
+                "operationId": "/video/videos",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middleware.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/dto.VideoIndexOutput"
+                                            }
                                         }
                                     }
                                 }
@@ -168,6 +218,48 @@ const docTemplate = `{
                     "description": "用户名",
                     "type": "string",
                     "example": "admin"
+                }
+            }
+        },
+        "dto.VideoIndexOutput": {
+            "type": "object",
+            "properties": {
+                "author_name": {
+                    "description": "视频作者名称",
+                    "type": "string",
+                    "example": "张三"
+                },
+                "title": {
+                    "description": "视频标题",
+                    "type": "string",
+                    "example": "标题1"
+                },
+                "video_id": {
+                    "description": "视频ID",
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "dto.VideoUploadInput": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "introduction": {
+                    "description": "视频简介",
+                    "type": "string",
+                    "example": "视频简介..."
+                },
+                "public": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "title": {
+                    "description": "视频标题",
+                    "type": "string",
+                    "example": "标题1"
                 }
             }
         },

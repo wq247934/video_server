@@ -24,6 +24,37 @@ definitions:
         example: admin
         type: string
     type: object
+  dto.VideoIndexOutput:
+    properties:
+      author_name:
+        description: 视频作者名称
+        example: 张三
+        type: string
+      title:
+        description: 视频标题
+        example: 标题1
+        type: string
+      video_id:
+        description: 视频ID
+        example: 1
+        type: integer
+    type: object
+  dto.VideoUploadInput:
+    properties:
+      introduction:
+        description: 视频简介
+        example: 视频简介...
+        type: string
+      public:
+        example: true
+        type: boolean
+      title:
+        description: 视频标题
+        example: 标题1
+        type: string
+    required:
+    - title
+    type: object
   middleware.Response:
     properties:
       data: {}
@@ -90,6 +121,13 @@ paths:
       - application/json
       description: 用户上传视频
       operationId: /video/upload
+      parameters:
+      - description: body
+        in: body
+        name: polygon
+        required: true
+        schema:
+          $ref: '#/definitions/dto.VideoUploadInput'
       produces:
       - application/json
       responses:
@@ -103,6 +141,29 @@ paths:
                   type: string
               type: object
       summary: 上传视频
+      tags:
+      - 视频接口
+  /video/videos:
+    get:
+      consumes:
+      - application/json
+      description: 视频列表
+      operationId: /video/videos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.VideoIndexOutput'
+                  type: array
+              type: object
+      summary: 视频列表
       tags:
       - 视频接口
 swagger: "2.0"

@@ -21,10 +21,10 @@ func (v *Video) TableName() string {
 	return "videos"
 }
 
-func (v *Video) Find() *Video {
-	out := &Video{}
-	common.MySqlDB.Where(v).Find(out)
-	return out
+func (v *Video) Find() *[]Video {
+	var out []Video
+	common.MySqlDB.Where("author_id = ? or public = 1", v.AuthorID).Find(&out)
+	return &out
 }
 
 func (v *Video) Save() error {

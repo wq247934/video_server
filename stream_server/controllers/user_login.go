@@ -52,7 +52,7 @@ func (adminLogin UserLoginController) UserLogin(c *gin.Context) {
 		return
 	}
 	//设置session
-	sessionInfo := &dto.AdminSessionInfo{
+	sessionInfo := &dto.UserSessionInfo{
 		ID:        u.ID,
 		UserName:  u.Username,
 		LoginTime: time.Now(),
