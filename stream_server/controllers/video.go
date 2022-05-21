@@ -35,11 +35,11 @@ func VideoControllerRegister(group *gin.RouterGroup) {
 // @ID /video/upload
 // @Accept  json
 // @Produce  json
+// @Param polygon body dto.VideoInput true "body"
 // @Success 200 {object} middleware.Response{data=string} "success"
 // @Router /video/upload [post]
 func (videoController VideoController) Upload(c *gin.Context) {
 	params := &dto.VideoInput{}
-	fmt.Println(params)
 	if err := params.BindingValidParams(c); err != nil {
 		middleware.ResponseError(c, 2000, err)
 		return
@@ -58,8 +58,6 @@ func (videoController VideoController) Upload(c *gin.Context) {
 	}
 	user := dao.User{Username: userInfo.UserName}
 	u := user.Find()
-	fmt.Println(ok)
-	fmt.Println(adminInfo)
 	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, common.MaxUploadSize)
 	if err := c.Request.ParseMultipartForm(common.MaxUploadSize); err != nil {
 		log.Println("File is to big!")
@@ -70,7 +68,7 @@ func (videoController VideoController) Upload(c *gin.Context) {
 	file, _, err := c.Request.FormFile("file")
 	if err != nil {
 		log.Printf("Error when try to get file: %v\n", err)
-		//sendErrorResponse(w, http.StatusInternalServerError, "Internal Error")
+		common.SendErrorResponse(c.Writer, http.StatusInternalServerError, "Internal Error")
 		return
 	}
 	data, err := ioutil.ReadAll(file)
