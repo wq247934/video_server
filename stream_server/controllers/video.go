@@ -138,7 +138,18 @@ func (videoController VideoController) VideoIndex(c *gin.Context) {
 	middleware.ResponseSuccess(c, videoOutputs)
 }
 
-func StreamHandler(c *gin.Context) {
+// play godoc
+// @Summary 播放视频
+// @Description 播放视频
+// @Tags 视频接口
+// @ID /video/play
+// @Accept  json
+// @Produce  json
+// @Param polygon body dto.VideoUploadInput true "body"
+// @Success 200 {object} middleware.Response{data=string} "success"
+// @Router /video/upload [post]
+func (videoController VideoController) play(c *gin.Context) {
+	//Todo 尚未完工
 	vid := c.Param("vid")
 	video, err := os.Open(common.VideoPath + vid)
 	if err != nil {
@@ -148,35 +159,4 @@ func StreamHandler(c *gin.Context) {
 	c.Writer.Header().Set("content-type", "video/mp4")
 	http.ServeContent(c.Writer, c.Request, "...", time.Now(), video)
 	defer video.Close()
-}
-
-func UploadHandler(c *gin.Context) {
-	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, common.MaxUploadSize)
-	if err := c.Request.ParseMultipartForm(common.MaxUploadSize); err != nil {
-		log.Println("File is to big!")
-		log.Println(err)
-		common.SendErrorResponse(c.Writer, http.StatusBadRequest, "File is to big!")
-		return
-	}
-	file, _, err := c.Request.FormFile("file")
-	if err != nil {
-		log.Printf("Error when try to get file: %v\n", err)
-		//sendErrorResponse(w, http.StatusInternalServerError, "Internal Error")
-		return
-	}
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		log.Printf("Error when try to read file: %v\n", err)
-		common.SendErrorResponse(c.Writer, http.StatusInternalServerError, "Internal Error")
-		return
-	}
-	vid := c.Param("vid")
-	if err := ioutil.WriteFile(common.VideoPath+vid, data, 0666); err != nil {
-		log.Printf("Error when try to write file: %v\n", err)
-		common.SendErrorResponse(c.Writer, http.StatusInternalServerError, "Internal Error")
-		return
-	}
-	c.Writer.WriteHeader(http.StatusCreated)
-	io.WriteString(c.Writer, "Uploaded successfully")
-
 }

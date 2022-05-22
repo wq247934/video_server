@@ -13,6 +13,7 @@ var (
 	HttpAddr      string
 	ReadTimeout   int
 	WriteTimeout  int
+	VideoPath     string
 )
 
 func init() {
@@ -23,6 +24,7 @@ func init() {
 	HttpAddr = GetEnv("HTTP_ADDR", "127.0.0.1:9001")
 	ReadTimeout, _ = strconv.Atoi(GetEnv("READ_TIMEOUT", "30"))
 	WriteTimeout, _ = strconv.Atoi(GetEnv("WriteTimeout", "30"))
+	VideoPath = GetEnv("VIDEO_PATH", "/Users/wangqian/Documents/video/")
 }
 
 func GetEnv(key, def string) string {
